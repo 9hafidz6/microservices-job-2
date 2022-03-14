@@ -100,6 +100,21 @@ namespace microservices_job_2.Controllers
             return NoContent();
         }
 
+        // GET: api/currentLocation
+        [HttpGet("/currentLocation")]
+        public async Task<string> GetCurrentLocationAsync()
+        {
+            string apiResponse;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://api.freegeoip.app/json/?apikey=7322ce70-2741-11ec-a395-7f2b5c241db6"))
+                {
+                    apiResponse = await response.Content.ReadAsStringAsync();
+                }
+            }
+            return apiResponse;
+        }
+
         private bool BookingExists(int id)
         {
             return _context.Bookings.Any(e => e.Id == id);
